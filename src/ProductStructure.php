@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 class ProductStructure
@@ -20,7 +21,27 @@ class ProductStructure
 
     public function make(): array
     {
-       //todo your code.
-        return [];
+        $rowsProducts = array();
+        foreach (self::products as $productCurrent) {
+
+            if (strpos($productCurrent, '-')) {
+
+                $productExplode = explode('-', $productCurrent);
+
+                if (count($productExplode) == 2) {
+                
+                    $color = current($productExplode);
+                    $size  = end($productExplode);
+
+                    if(!isset($rowsProducts[$color][$size])){
+                        $rowsProducts[$color][$size] = 1;
+                        continue;
+                    }
+
+                    $rowsProducts[$color][$size] += 1;
+                }
+            }
+        }
+        return $rowsProducts;
     }
 }
